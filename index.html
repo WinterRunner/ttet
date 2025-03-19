@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实用工具箱</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>实用工具箱</h1>
+        <p>选择下方工具或自定义常用工具</p>
+    </header>
+
+    <main>
+        <section class="favorite-tools">
+            <h2>我的常用工具</h2>
+            <div class="tools-grid" id="favorite-tools-container">
+                <!-- 这里最多可以放置7个工具 -->
+                <div class="tool-card empty" data-position="0">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="1">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="2">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="3">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="4">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="5">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+                <div class="tool-card empty" data-position="6">
+                    <div class="add-tool">+</div>
+                    <p>添加工具</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="all-tools">
+            <h2>所有工具</h2>
+            <div class="tools-grid" id="all-tools-container">
+                <a href="tools/svg-to-image.html" class="tool-card" data-tool-id="svg-to-image">
+                    <div class="tool-icon">🖼️</div>
+                    <h3>SVG转图片</h3>
+                    <p>将SVG矢量图转换为PNG/JPG图片</p>
+                </a>
+                <a href="tools/excel-processor.html" class="tool-card" data-tool-id="excel-processor">
+                    <div class="tool-icon">📊</div>
+                    <h3>Excel处理</h3>
+                    <p>数据格式统一和重复数据处理</p>
+                </a>
+                <!-- 未来可以在这里添加更多工具 -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 实用工具箱</p>
+    </footer>
+
+    <!-- 工具选择弹窗 -->
+    <div class="modal" id="tool-select-modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>选择要添加的工具</h2>
+            <div class="modal-tools-container" id="modal-tools-list">
+                <!-- 工具列表将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/tool-manager.js"></script>
+</body>
+</html> 

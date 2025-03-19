@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel数据处理 - 实用工具箱</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <style>
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: fixed;
+            right: 200px;
+            bottom: 100px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            font-size: 16px;
+            animation: breathe 1.5s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                background-color: #007bff;
+            }
+            50% {
+                transform: scale(1.15);
+                box-shadow: 0 4px 25px rgba(0, 123, 255, 0.6);
+                background-color: #0056b3;
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                background-color: #007bff;
+            }
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: none;
+        }
+
+        .back-button::before {
+            content: "首页";
+        }
+
+        .tool-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            min-height: calc(100vh - 180px);
+        }
+
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 15px;
+            height: calc(100vh - 250px);
+            min-height: 500px;
+        }
+
+        .left-section {
+            flex: 2.5;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .right-section {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            min-width: 300px;
+            max-width: 380px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .upload-area .content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .upload-area .icon-container {
+            font-size: 36px;
+            animation: bounce 2s infinite;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .upload-area .text-container {
+            text-align: left;
+        }
+
+        .upload-area::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .upload-area p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .upload-area .upload-hint {
+            font-size: 14px;
+            color: #999;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .upload-area:hover {
+            border-color: #007bff;
+            background-color: #f0f7ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+        }
+
+        .upload-area:hover .icon-container {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+            20%, 100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* 添加文件拖入时的效果 */
+        .upload-area.dragover {
+            border-color: #007bff;
+            background-color: #e3f2fd;
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover .icon-container {
+            animation: none;
+            transform: scale(1.2);
+        }
+
+        .preview-box {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: calc(100vh - 350px);
+            min-height: 400px;
+        }
+
+        .preview-box h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .preview-table {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        .preview-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #ddd;
+            padding: 4px 8px;
+            font-size: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .preview-table th {
+            background-color: #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .preview-table::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .preview-table::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .preview-table::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .preview-table::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .settings {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+
+        .settings-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: white;
+            position: relative;
+        }
+
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-group-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .settings-group-title i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .settings-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .settings-group select,
+        .settings-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .settings-group select:focus,
+        .settings-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        .select-trigger {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .select-trigger:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .select-trigger::after {
+            content: "▼";
+            font-size: 12px;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .select-trigger.active::after {
+            transform: rotate(180deg);
+        }
+
+        .checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px;
+            background-color: white;
+            display: none;
+            position: absolute;
+            width: calc(100% - 30px);
+            left: 15px;
+            right: 15px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .checkbox-group.show {
+            display: block;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 36px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin: 0 8px 0 0;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item label {
+            flex: 1;
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .selected-columns {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            min-height: 24px;
+            display: none;
+        }
+
+        .selected-columns.show {
+            display: block;
+        }
+
+        .selected-columns span {
+            display: inline-flex;
+            align-items: center;
+            background-color: #1976d2;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin: 2px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .selected-columns span:hover {
+            background-color: #1565c0;
+        }
+
+        .selected-columns span::after {
+            content: "×";
+            margin-left: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .selected-columns span:hover::after {
+            color: #ff4444;
+        }
+
+        .feature-description {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .process-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+
+        .process-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .process-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .download-btn {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .stats {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .right-section {
+                min-width: 100%;
+                max-width: none;
+            }
+        }
+
+        .select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .checkbox-select {
+            height: auto;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .checkbox-select option {
+            padding: 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-select option:checked {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .checkbox-select option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px;
+            background-color: white;
+            display: none;
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .checkbox-group.show {
+            display: block;
+        }
+
+        .select-trigger {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .select-trigger:hover {
+            border-color: #007bff;
+        }
+
+        .select-trigger::after {
+            content: "▼";
+            font-size: 12px;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .select-trigger.active::after {
+            transform: rotate(180deg);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 36px;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin: 0 8px 0 0;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item label {
+            flex: 1;
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .selected-columns {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            min-height: 24px;
+            display: none;
+        }
+
+        .selected-columns.show {
+            display: block;
+        }
+
+        .selected-columns span {
+            display: inline-block;
+            background-color: #1976d2;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin: 2px;
+            font-size: 12px;
+        }
+
+        /* 修改Toast样式 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s;
+            font-size: 14px;
+            min-width: 280px;
+            justify-content: center;
+        }
+
+        .toast.success {
+            background-color: #28a745;
+        }
+
+        .toast::before {
+            content: "⚠️";
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .toast.success::before {
+            content: "✅";
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* 修改列管理样式 */
+        .column-manager {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .column-manager-title {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .column-manager-title:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .column-manager-title::after {
+            content: "▼";
+            font-size: 12px;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .column-manager-title.active::after {
+            transform: rotate(180deg);
+        }
+
+        .column-list {
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px;
+            background-color: white;
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .column-list.show {
+            display: block;
+        }
+
+        .column-select-all {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 36px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .column-select-all:hover {
+            background-color: #f0f0f0;
+        }
+
+        .column-select-all input[type="checkbox"] {
+            margin: 0 8px 0 0;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .column-select-all label {
+            flex: 1;
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            font-weight: 500;
+        }
+
+        /* 添加处理中动画样式 */
+        .process-btn.processing {
+            position: relative;
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .process-btn.processing::after {
+            content: "处理中...";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            animation: processingText 1.5s infinite;
+        }
+
+        .process-btn.processing::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            left: calc(50% - 45px);
+            top: 50%;
+            transform: translateY(-50%);
+            animation: rotate 1s linear infinite;
+        }
+
+        @keyframes processingText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes rotate {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Excel数据处理</h1>
+        <p>数据格式统一和重复数据处理</p>
+    </header>
+
+    <main class="tool-container">
+        <div class="main-content">
+            <div class="left-section">
+                <div class="upload-area" id="dropZone">
+                    <div class="content-wrapper">
+                        <div class="icon-container">📊</div>
+                        <div class="text-container">
+                            <p>拖拽Excel文件到这里，或点击选择文件</p>
+                            <div class="upload-hint">支持 .xlsx 和 .xls 格式</div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display: none;">
+                </div>
+                <div class="preview-box">
+                    <div class="column-manager">
+                        <div class="column-manager-title" id="columnManagerTitle">
+                            选择要显示的列
+                        </div>
+                        <div class="column-list" id="columnList">
+                            <!-- 列选项将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                    <h3>数据预览</h3>
+                    <div class="preview-table" id="dataPreview"></div>
+                </div>
+            </div>
+            <div class="right-section">
+                <div class="settings">
+                    <div class="settings-group">
+                        <div class="settings-group-title">
+                            <i>📝</i> 数据格式统一
+                        </div>
+                        <p class="feature-description">选择需要统一格式的列，可以将文本转换为大写、小写或首字母大写格式。</p>
+                        <select id="formatType">
+                            <option value="none">不处理</option>
+                            <option value="uppercase">全部大写</option>
+                            <option value="lowercase">全部小写</option>
+                            <option value="capitalize">首字母大写</option>
+                            <option value="datetime">时间格式</option>
+                            <option value="toNumber">转换为数字</option>
+                            <option value="toString">转换为字符串</option>
+                        </select>
+                        <div id="datetimeFormatOptions" style="display: none; margin-bottom: 10px;">
+                            <select id="datetimeFormat" style="margin-top: 8px;">
+                                <option value="YYYY-MM-DD">YYYY-MM-DD（2024-03-21）</option>
+                                <option value="YYYY/MM/DD">YYYY/MM/DD（2024/03/21）</option>
+                                <option value="YYYY-MM-DD HH:mm:ss">YYYY-MM-DD HH:mm:ss（2024-03-21 15:30:00）</option>
+                                <option value="YYYY/MM/DD HH:mm:ss">YYYY/MM/DD HH:mm:ss（2024/03/21 15:30:00）</option>
+                                <option value="MM-DD-YYYY">MM-DD-YYYY（03-21-2024）</option>
+                                <option value="DD-MM-YYYY">DD-MM-YYYY（21-03-2024）</option>
+                            </select>
+                        </div>
+                        <div id="numberFormatOptions" style="display: none; margin-bottom: 10px;">
+                            <select id="numberFormat" style="margin-top: 8px;">
+                                <option value="integer">整数</option>
+                                <option value="decimal1">保留1位小数</option>
+                                <option value="decimal2">保留2位小数</option>
+                                <option value="decimal3">保留3位小数</option>
+                                <option value="decimal4">保留4位小数</option>
+                            </select>
+                        </div>
+                        <div class="select-trigger" id="formatSelectTrigger">
+                            选择需要统一格式的列
+                        </div>
+                        <div class="checkbox-group" id="formatColumns">
+                            <!-- 选项将通过JavaScript动态添加 -->
+                        </div>
+                        <div class="selected-columns" id="selectedFormatColumns">
+                            <!-- 已选择的列将在这里显示 -->
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <div class="settings-group-title">
+                            <i>🔍</i> 重复数据处理
+                        </div>
+                        <p class="feature-description">选择用于判断重复数据的列，可以删除重复行或在重复数据前添加标记。</p>
+                        <select id="duplicateType">
+                            <option value="none">不处理</option>
+                            <option value="remove">删除重复行</option>
+                            <option value="mark">标记重复行</option>
+                        </select>
+                        <div class="select-trigger" id="duplicateSelectTrigger">
+                            选择用于判断重复数据的列
+                        </div>
+                        <div class="checkbox-group" id="duplicateColumns">
+                            <!-- 选项将通过JavaScript动态添加 -->
+                        </div>
+                        <div class="selected-columns" id="selectedDuplicateColumns">
+                            <!-- 已选择的列将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+                <button class="process-btn" id="processBtn" disabled>开始处理</button>
+                <button class="download-btn" id="downloadBtn">下载处理后的文件</button>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 实用工具箱</p>
+    </footer>
+
+    <a href="../index.html" class="back-button" title="返回首页"></a>
+
+    <script>
+        /**
+         * Excel数据处理工具的主要功能实现
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const dataPreview = document.getElementById('dataPreview');
+            const processBtn = document.getElementById('processBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const stats = document.getElementById('stats');
+            const formatType = document.getElementById('formatType');
+            const duplicateType = document.getElementById('duplicateType');
+            const formatColumns = document.getElementById('formatColumns');
+            const duplicateColumns = document.getElementById('duplicateColumns');
+            const formatSelectTrigger = document.getElementById('formatSelectTrigger');
+            const duplicateSelectTrigger = document.getElementById('duplicateSelectTrigger');
+            const datetimeFormatOptions = document.getElementById('datetimeFormatOptions');
+            const numberFormatOptions = document.getElementById('numberFormatOptions');
+
+            let workbook = null;
+            let currentSheet = null;
+            let hiddenColumns = new Set(); // 存储隐藏的列索引
+            let originalFileName = ''; // 添加变量存储原始文件名
+
+            // 处理文件拖放
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls'))) {
+                    handleFile(file);
+                } else {
+                    showToast('请选择Excel文件(.xlsx或.xls)');
+                }
+            });
+
+            // 处理文件选择
+            dropZone.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file && (file.name.endsWith('.xlsx') || file.name.endsWith('.xls'))) {
+                    handleFile(file);
+                } else {
+                    showToast('请选择Excel文件(.xlsx或.xls)');
+                }
+            });
+
+            // 添加列管理相关的事件监听
+            const columnManagerTitle = document.getElementById('columnManagerTitle');
+            const columnList = document.getElementById('columnList');
+
+            columnManagerTitle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                columnManagerTitle.classList.toggle('active');
+                columnList.classList.toggle('show');
+            });
+
+            // 点击其他地方关闭下拉框
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.column-manager')) {
+                    columnList.classList.remove('show');
+                    columnManagerTitle.classList.remove('active');
+                }
+            });
+
+            // 更新列显示设置
+            function updateColumnManager(headers) {
+                columnList.innerHTML = '';
+                
+                // 添加全选选项
+                const selectAllItem = document.createElement('div');
+                selectAllItem.className = 'column-select-all';
+                
+                const selectAllCheckbox = document.createElement('input');
+                selectAllCheckbox.type = 'checkbox';
+                selectAllCheckbox.id = 'select-all-columns';
+                selectAllCheckbox.checked = hiddenColumns.size === 0;
+                selectAllCheckbox.addEventListener('change', () => {
+                    const isChecked = selectAllCheckbox.checked;
+                    // 更新所有列的显示状态
+                    columnList.querySelectorAll('.column-item input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = isChecked;
+                    });
+                    // 更新隐藏列集合
+                    if (isChecked) {
+                        hiddenColumns.clear();
+                    } else {
+                        headers.forEach((_, index) => hiddenColumns.add(index));
+                    }
+                    // 更新预览显示
+                    displayPreview(currentSheet, document.getElementById('dataPreview'));
+                    // 更新可选择的列
+                    updateKeyColumns();
+                    // 更新选择框显示文本
+                    updateColumnManagerText();
+                });
+                
+                const selectAllLabel = document.createElement('label');
+                selectAllLabel.htmlFor = 'select-all-columns';
+                selectAllLabel.textContent = '全选';
+                
+                selectAllItem.appendChild(selectAllCheckbox);
+                selectAllItem.appendChild(selectAllLabel);
+                columnList.appendChild(selectAllItem);
+
+                // 添加列选项
+                headers.forEach((header, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'column-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `col-visible-${index}`;
+                    checkbox.checked = !hiddenColumns.has(index);
+                    checkbox.addEventListener('change', () => {
+                        if (checkbox.checked) {
+                            hiddenColumns.delete(index);
+                        } else {
+                            hiddenColumns.add(index);
+                        }
+                        // 更新全选状态
+                        selectAllCheckbox.checked = hiddenColumns.size === 0;
+                        // 更新预览显示
+                        displayPreview(currentSheet, document.getElementById('dataPreview'));
+                        // 更新可选择的列
+                        updateKeyColumns();
+                        // 更新选择框显示文本
+                        updateColumnManagerText();
+                    });
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `col-visible-${index}`;
+                    label.textContent = `${header} (列${index + 1})`;
+                    
+                    item.appendChild(checkbox);
+                    item.appendChild(label);
+                    columnList.appendChild(item);
+                });
+                updateColumnManagerText();
+            }
+
+            // 更新列管理选择框显示文本
+            function updateColumnManagerText() {
+                const visibleCount = columnList.querySelectorAll('input[type="checkbox"]:checked').length;
+                const totalCount = columnList.querySelectorAll('input[type="checkbox"]').length;
+                columnManagerTitle.textContent = `已选择 ${visibleCount}/${totalCount} 列`;
+            }
+
+            // 修改显示预览函数
+            function displayPreview(sheet, container) {
+                const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                if (jsonData.length === 0) {
+                    container.innerHTML = '<p>无数据</p>';
+                    return;
+                }
+
+                let html = '<table><thead><tr>';
+                // 表头
+                jsonData[0].forEach((header, index) => {
+                    if (!hiddenColumns.has(index)) {
+                        html += `<th>${header || ''}</th>`;
+                    }
+                });
+                html += '</tr></thead><tbody>';
+
+                // 数据行
+                for (let i = 1; i < jsonData.length; i++) {
+                    html += '<tr>';
+                    jsonData[i].forEach((cell, index) => {
+                        if (!hiddenColumns.has(index)) {
+                            html += `<td>${cell || ''}</td>`;
+                        }
+                    });
+                    html += '</tr>';
+                }
+                html += '</tbody></table>';
+
+                container.innerHTML = html;
+            }
+
+            // 修改文件处理函数
+            function handleFile(file) {
+                const reader = new FileReader();
+                
+                // 保存原始文件名（去掉扩展名）
+                originalFileName = file.name.replace(/\.[^/.]+$/, '');
+                
+                reader.onload = (e) => {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        workbook = XLSX.read(data, { type: 'array' });
+                        currentSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        
+                        // 重置隐藏列
+                        hiddenColumns.clear();
+                        
+                        // 更新列显示设置
+                        const jsonData = XLSX.utils.sheet_to_json(currentSheet, { header: 1 });
+                        if (jsonData.length > 0) {
+                            updateColumnManager(jsonData[0]);
+                        }
+                        
+                        // 显示数据预览
+                        displayPreview(currentSheet, document.getElementById('dataPreview'));
+                        
+                        // 更新关键列选项
+                        updateKeyColumns();
+                        
+                        processBtn.disabled = false;
+                    } catch (error) {
+                        showToast('文件读取失败：' + error.message);
+                    }
+                };
+
+                reader.onerror = () => {
+                    showToast('文件读取失败');
+                };
+
+                reader.readAsArrayBuffer(file);
+            }
+
+            // 修改更新关键列选项函数
+            function updateKeyColumns() {
+                if (!currentSheet) return;
+                
+                const jsonData = XLSX.utils.sheet_to_json(currentSheet, { header: 1 });
+                if (jsonData.length === 0) return;
+
+                // 更新格式统一列选项
+                const formatColumnsContainer = document.getElementById('formatColumns');
+                formatColumnsContainer.innerHTML = '';
+                jsonData[0].forEach((header, index) => {
+                    if (hiddenColumns.has(index)) return; // 跳过隐藏的列
+                    
+                    const div = document.createElement('div');
+                    div.className = 'checkbox-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `format-col-${index}`;
+                    checkbox.value = header;
+                    checkbox.addEventListener('change', () => {
+                        updateSelectedColumns('format');
+                        updateSelectTriggerText('format');
+                    });
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `format-col-${index}`;
+                    label.textContent = `${header} (列${index + 1})`;
+                    
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+                    formatColumnsContainer.appendChild(div);
+                });
+
+                // 更新重复数据处理列选项
+                const duplicateColumnsContainer = document.getElementById('duplicateColumns');
+                duplicateColumnsContainer.innerHTML = '';
+                jsonData[0].forEach((header, index) => {
+                    if (hiddenColumns.has(index)) return; // 跳过隐藏的列
+                    
+                    const div = document.createElement('div');
+                    div.className = 'checkbox-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `duplicate-col-${index}`;
+                    checkbox.value = header;
+                    checkbox.addEventListener('change', () => {
+                        updateSelectedColumns('duplicate');
+                        updateSelectTriggerText('duplicate');
+                    });
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `duplicate-col-${index}`;
+                    label.textContent = `${header} (列${index + 1})`;
+                    
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+                    duplicateColumnsContainer.appendChild(div);
+                });
+            }
+
+            // 更新已选择的列显示
+            function updateSelectedColumns(type) {
+                const container = document.getElementById(`selected${type.charAt(0).toUpperCase() + type.slice(1)}Columns`);
+                const checkboxes = document.querySelectorAll(`#${type}Columns input[type="checkbox"]:checked`);
+                
+                if (checkboxes.length === 0) {
+                    container.classList.remove('show');
+                    return;
+                }
+
+                container.innerHTML = '';
+                checkboxes.forEach(checkbox => {
+                    const span = document.createElement('span');
+                    span.textContent = checkbox.value;
+                    span.addEventListener('click', () => {
+                        // 取消对应的复选框选中状态
+                        checkbox.checked = false;
+                        // 更新显示
+                        updateSelectedColumns(type);
+                        updateSelectTriggerText(type);
+                    });
+                    container.appendChild(span);
+                });
+                container.classList.add('show');
+            }
+
+            // 更新选择框显示文本
+            function updateSelectTriggerText(type) {
+                const trigger = document.getElementById(`${type}SelectTrigger`);
+                const checkboxes = document.querySelectorAll(`#${type}Columns input[type="checkbox"]:checked`);
+                
+                if (checkboxes.length === 0) {
+                    trigger.textContent = `选择${type === 'format' ? '需要统一格式' : '用于判断重复数据'}的列`;
+                } else {
+                    trigger.textContent = `已选择 ${checkboxes.length} 列`;
+                }
+            }
+
+            // 处理下拉框点击
+            formatSelectTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                formatColumns.classList.toggle('show');
+                formatSelectTrigger.classList.toggle('active');
+                duplicateColumns.classList.remove('show');
+                duplicateSelectTrigger.classList.remove('active');
+            });
+
+            duplicateSelectTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                duplicateColumns.classList.toggle('show');
+                duplicateSelectTrigger.classList.toggle('active');
+                formatColumns.classList.remove('show');
+                formatSelectTrigger.classList.remove('active');
+            });
+
+            // 点击其他地方关闭下拉框
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.checkbox-group') && !e.target.closest('.select-trigger')) {
+                    formatColumns.classList.remove('show');
+                    duplicateColumns.classList.remove('show');
+                    formatSelectTrigger.classList.remove('active');
+                    duplicateSelectTrigger.classList.remove('active');
+                }
+            });
+
+            // 修改数据处理和导出逻辑
+            processBtn.addEventListener('click', async () => {
+                if (!currentSheet) return;
+
+                // 添加处理中状态
+                processBtn.classList.add('processing');
+                processBtn.disabled = true;
+
+                try {
+                    // 使用 Promise 和 setTimeout 创建延迟
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    const jsonData = XLSX.utils.sheet_to_json(currentSheet, { header: 1 });
+                    // 过滤掉隐藏的列
+                    let processedData = jsonData.map(row => 
+                        row.filter((_, index) => !hiddenColumns.has(index))
+                    );
+                    let statsText = [];
+
+                    // 数据格式统一
+                    if (formatType.value !== 'none') {
+                        const formatCheckboxes = document.querySelectorAll('#formatColumns input[type="checkbox"]:checked');
+                        if (formatCheckboxes.length === 0) {
+                            showToast('请选择需要统一格式的列');
+                            // 移除处理中状态
+                            processBtn.classList.remove('processing');
+                            processBtn.disabled = false;
+                            return;
+                        }
+
+                        const formatCols = Array.from(formatCheckboxes).map(checkbox => checkbox.value);
+                        const headerRow = processedData[0];
+                        const formatIndices = formatCols.map(col => {
+                            const index = headerRow.findIndex(h => h === col);
+                            if (index === -1) {
+                                throw new Error(`未找到列：${col}`);
+                            }
+                            return index;
+                        });
+
+                        // 创建一个新的工作表配置对象来存储单元格格式
+                        let cellFormats = {};
+
+                        processedData = processedData.map((row, rowIndex) => {
+                            if (rowIndex === 0) return row; // 跳过表头
+                            return row.map((cell, cellIndex) => {
+                                if (formatIndices.includes(cellIndex)) {
+                                    let processedValue;
+                                    switch (formatType.value) {
+                                        case 'datetime':
+                                            const datetimeFormat = document.getElementById('datetimeFormat').value;
+                                            processedValue = formatDateTime(cell, datetimeFormat);
+                                            break;
+                                        case 'toNumber':
+                                            const numberFormat = document.getElementById('numberFormat').value;
+                                            processedValue = formatNumber(cell, numberFormat);
+                                            // 为数字类型的单元格设置格式
+                                            if (typeof processedValue === 'number') {
+                                                const cellRef = XLSX.utils.encode_cell({r: rowIndex, c: cellIndex});
+                                                cellFormats[cellRef] = { t: 'n' };
+                                            }
+                                            break;
+                                        case 'toString':
+                                            processedValue = cell ? cell.toString() : '';
+                                            break;
+                                        case 'uppercase':
+                                            processedValue = typeof cell === 'string' ? cell.toUpperCase() : cell;
+                                            break;
+                                        case 'lowercase':
+                                            processedValue = typeof cell === 'string' ? cell.toLowerCase() : cell;
+                                            break;
+                                        case 'capitalize':
+                                            processedValue = typeof cell === 'string' 
+                                                ? cell.split(' ').map(word => 
+                                                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                                ).join(' ') 
+                                                : cell;
+                                            break;
+                                        default:
+                                            processedValue = cell;
+                                    }
+                                    return processedValue;
+                                }
+                                return cell;
+                            });
+                        });
+
+                        // 创建新的工作表时应用单元格格式
+                        const newSheet = XLSX.utils.aoa_to_sheet(processedData);
+                        // 应用单元格格式
+                        Object.keys(cellFormats).forEach(cellRef => {
+                            if (!newSheet[cellRef]) newSheet[cellRef] = {};
+                            Object.assign(newSheet[cellRef], cellFormats[cellRef]);
+                        });
+                        currentSheet = newSheet;
+
+                        // 更新统计信息
+                        let formatTypeText = '';
+                        switch (formatType.value) {
+                            case 'uppercase':
+                                formatTypeText = '转大写';
+                                break;
+                            case 'lowercase':
+                                formatTypeText = '转小写';
+                                break;
+                            case 'capitalize':
+                                formatTypeText = '首字母大写';
+                                break;
+                            case 'datetime':
+                                formatTypeText = '时间格式化';
+                                break;
+                            case 'toNumber':
+                                formatTypeText = '转数字';
+                                break;
+                            case 'toString':
+                                formatTypeText = '转字符串';
+                                break;
+                        }
+                        statsText.push(`已完成${formatCols.length}列${formatTypeText}处理`);
+                    }
+
+                    // 重复数据处理
+                    if (duplicateType.value !== 'none') {
+                        const duplicateCheckboxes = document.querySelectorAll('#duplicateColumns input[type="checkbox"]:checked');
+                        if (duplicateCheckboxes.length === 0) {
+                            showToast('请选择用于判断重复数据的列');
+                            // 移除处理中状态
+                            processBtn.classList.remove('processing');
+                            processBtn.disabled = false;
+                            return;
+                        }
+
+                        const duplicateCols = Array.from(duplicateCheckboxes).map(checkbox => checkbox.value);
+                        const headerRow = processedData[0];
+                        const duplicateIndices = duplicateCols.map(col => {
+                            const index = headerRow.findIndex(h => h === col);
+                            if (index === -1) {
+                                throw new Error(`未找到列：${col}`);
+                            }
+                            return index;
+                        });
+
+                        if (duplicateType.value === 'remove') {
+                            const seen = new Set();
+                            processedData = processedData.filter((row, index) => {
+                                if (index === 0) return true; // 保留表头
+                                const key = duplicateIndices.map(i => row[i]).join('|');
+                                if (seen.has(key)) return false;
+                                seen.add(key);
+                                return true;
+                            });
+                            statsText.push(`已删除 ${jsonData.length - processedData.length} 行重复数据`);
+                        } else if (duplicateType.value === 'mark') {
+                            const seen = new Map();
+                            processedData = processedData.map((row, index) => {
+                                if (index === 0) return row; // 跳过表头
+                                const key = duplicateIndices.map(i => row[i]).join('|');
+                                if (seen.has(key)) {
+                                    return row.map((cell, cellIndex) => 
+                                        duplicateIndices.includes(cellIndex) ? `[重复] ${cell}` : cell
+                                    );
+                                }
+                                seen.set(key, true);
+                                return row;
+                            });
+                            statsText.push(`已标记${duplicateCols.length}列的重复数据`);
+                        }
+                    }
+
+                    // 更新数据预览
+                    displayPreview(currentSheet, document.getElementById('dataPreview'));
+
+                    // 更新列选项
+                    updateKeyColumns();
+
+                    // 清空已选择的列
+                    clearSelectedColumns();
+
+                    // 显示统计信息
+                    stats.textContent = statsText.join(' | ');
+                    stats.style.display = 'block';
+
+                    // 显示下载按钮
+                    downloadBtn.style.display = 'block';
+                    downloadBtn.onclick = () => {
+                        // 获取当前时间
+                        const now = new Date();
+                        const timestamp = now.getFullYear() +
+                            String(now.getMonth() + 1).padStart(2, '0') +
+                            String(now.getDate()).padStart(2, '0') +
+                            String(now.getHours()).padStart(2, '0') +
+                            String(now.getMinutes()).padStart(2, '0') +
+                            String(now.getSeconds()).padStart(2, '0');
+                        
+                        // 组合新的文件名：原文件名_处理时间.xlsx
+                        const newFileName = `${originalFileName}_${timestamp}.xlsx`;
+                        
+                        const newWorkbook = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(newWorkbook, currentSheet, 'Sheet1');
+                        // 设置写入选项，保持数字格式
+                        XLSX.writeFile(newWorkbook, newFileName, {
+                            bookType: 'xlsx',
+                            type: 'binary',
+                            cellStyles: true,
+                            cellDates: true,
+                            bookSST: true
+                        });
+                    };
+
+                    // 重置处理选项
+                    resetProcessOptions();
+
+                    // 移除处理中状态
+                    processBtn.classList.remove('processing');
+                    processBtn.disabled = false;
+
+                    // 显示成功提示
+                    showToast('数据处理完成', 'success');
+
+                } catch (error) {
+                    // 发生错误时移除处理中状态
+                    processBtn.classList.remove('processing');
+                    processBtn.disabled = false;
+                    showToast('数据处理失败：' + error.message);
+                }
+            });
+
+            // 清空已选择的列
+            function clearSelectedColumns() {
+                // 取消所有复选框的选中状态
+                document.querySelectorAll('#formatColumns input[type="checkbox"], #duplicateColumns input[type="checkbox"]')
+                    .forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+
+                // 更新显示
+                updateSelectedColumns('format');
+                updateSelectedColumns('duplicate');
+                updateSelectTriggerText('format');
+                updateSelectTriggerText('duplicate');
+            }
+
+            // 重置处理选项
+            function resetProcessOptions() {
+                formatType.value = 'none';
+                duplicateType.value = 'none';
+                datetimeFormatOptions.style.display = 'none';
+                numberFormatOptions.style.display = 'none';
+            }
+
+            // 错误处理
+            function showToast(message, type = 'error') {
+                // 移除现有的toast
+                const existingToast = document.querySelector('.toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                // 创建新的toast
+                const toast = document.createElement('div');
+                toast.className = `toast ${type === 'success' ? 'success' : ''}`;
+                toast.textContent = message;
+
+                // 添加到页面
+                document.body.appendChild(toast);
+
+                // 3秒后自动移除
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            // 在 DOMContentLoaded 事件监听器中修改
+            formatType.addEventListener('change', () => {
+                if (formatType.value === 'datetime') {
+                    datetimeFormatOptions.style.display = 'block';
+                    numberFormatOptions.style.display = 'none';
+                } else if (formatType.value === 'toNumber') {
+                    datetimeFormatOptions.style.display = 'none';
+                    numberFormatOptions.style.display = 'block';
+                } else {
+                    datetimeFormatOptions.style.display = 'none';
+                    numberFormatOptions.style.display = 'none';
+                }
+            });
+
+            // 添加数字格式化函数
+            function formatNumber(value, format) {
+                // 尝试将值转换为数字
+                let num = parseFloat(value);
+                
+                // 如果转换失败，返回原始值
+                if (isNaN(num)) {
+                    return value;
+                }
+
+                // 根据选择的格式返回数字（不是字符串）
+                switch (format) {
+                    case 'integer':
+                        return Math.round(num);
+                    case 'decimal1':
+                        return Number(num.toFixed(1));
+                    case 'decimal2':
+                        return Number(num.toFixed(2));
+                    case 'decimal3':
+                        return Number(num.toFixed(3));
+                    case 'decimal4':
+                        return Number(num.toFixed(4));
+                    default:
+                        return num;
+                }
+            }
+
+            // 修改处理数据部分的代码
+            function formatDateTime(dateStr, format) {
+                // 尝试解析日期字符串
+                let date = new Date(dateStr);
+                
+                // 如果解析失败，尝试其他常见格式
+                if (isNaN(date.getTime())) {
+                    // 尝试解析 "DD-MM-YYYY" 格式
+                    const parts = dateStr.split(/[-/]/);
+                    if (parts.length === 3) {
+                        // 尝试不同的日期组合
+                        date = new Date(parts[2], parts[1] - 1, parts[0]);
+                        if (isNaN(date.getTime())) {
+                            date = new Date(parts[2], parts[0] - 1, parts[1]);
+                        }
+                    }
+                }
+
+                if (isNaN(date.getTime())) {
+                    return dateStr; // 如果仍然无法解析，返回原始字符串
+                }
+
+                // 格式化日期
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+
+                // 根据选择的格式返回
+                switch (format) {
+                    case 'YYYY-MM-DD':
+                        return `${year}-${month}-${day}`;
+                    case 'YYYY/MM/DD':
+                        return `${year}/${month}/${day}`;
+                    case 'YYYY-MM-DD HH:mm:ss':
+                        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                    case 'YYYY/MM/DD HH:mm:ss':
+                        return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+                    case 'MM-DD-YYYY':
+                        return `${month}-${day}-${year}`;
+                    case 'DD-MM-YYYY':
+                        return `${day}-${month}-${year}`;
+                    default:
+                        return dateStr;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

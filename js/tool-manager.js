@@ -226,6 +226,14 @@ function loadFavoriteTools() {
                 addToolToFavorites(tool, position);
             }
         }
+    } else {
+        // 如果用户没有设置过常用工具，则默认添加所有工具（最多7个）
+        const allTools = getAllTools();
+        allTools.slice(0, 7).forEach((tool, index) => {
+            addToolToFavorites(tool, index.toString());
+        });
+        // 保存到本地存储
+        saveFavoriteTools();
     }
 }
 

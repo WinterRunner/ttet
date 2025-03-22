@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel数据处理 - 实用工具箱</title>
+    <title>Excel数据处理工具 - 在线Excel格式化和去重 | 实用工具箱</title>
+    <meta name="description" content="免费在线Excel数据处理工具，支持数据格式统一、重复数据处理、时间格式转换等功能。无需安装Office，在浏览器中即可完成Excel数据清洗和格式化。">
+    <meta name="keywords" content="Excel处理,Excel格式化,Excel去重,数据清洗,在线Excel工具,Excel时间格式,数据处理">
+    <!-- 百度搜索优化 -->
+    <meta name="baidu-site-verification" content="code-xxxxx"> <!-- 请替换为实际的百度站长验证码 -->
+    <meta property="og:title" content="Excel数据处理工具 - 在线Excel格式化和去重">
+    <meta property="og:description" content="在线Excel数据处理工具，支持数据格式统一、重复数据处理、时间格式转换等功能。无需安装Office，快速完成数据清洗。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tools.ldoing.com/tools/excel-processor.html">
+    <!-- 谷歌搜索优化 -->
+    <meta name="google-site-verification" content="xxxxx"> <!-- 请替换为实际的谷歌站长验证码 -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tools.ldoing.com/tools/excel-processor.html">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Excel数据处理工具",
+        "description": "在线Excel数据处理工具，提供数据格式化、去重等功能",
+        "url": "https://tools.ldoing.com/tools/excel-processor.html",
+        "applicationCategory": "数据处理工具",
+        "operatingSystem": "全平台",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        },
+        "featureList": [
+            "数据格式统一",
+            "重复数据处理",
+            "时间格式转换",
+            "文本格式化",
+            "数字格式化",
+            "列显示管理"
+        ]
+    }
+    </script>
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
@@ -11,8 +48,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 3.75rem;
+            height: 3.75rem;
             background-color: #007bff;
             border: none;
             border-radius: 50%;
@@ -20,28 +57,28 @@
             text-decoration: none;
             transition: all 0.3s ease;
             position: fixed;
-            right: 200px;
-            bottom: 100px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            right: 5%;
+            bottom: 10%;
+            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            font-size: 16px;
+            font-size: 1rem;
             animation: breathe 1.5s ease-in-out infinite;
         }
 
         @keyframes breathe {
             0% {
                 transform: scale(1);
-                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                box-shadow: 0 0.125rem 0.625rem rgba(0, 123, 255, 0.2);
                 background-color: #007bff;
             }
             50% {
                 transform: scale(1.15);
-                box-shadow: 0 4px 25px rgba(0, 123, 255, 0.6);
+                box-shadow: 0 0.25rem 1.5625rem rgba(0, 123, 255, 0.6);
                 background-color: #0056b3;
             }
             100% {
                 transform: scale(1);
-                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                box-shadow: 0 0.125rem 0.625rem rgba(0, 123, 255, 0.2);
                 background-color: #007bff;
             }
         }
@@ -49,7 +86,7 @@
         .back-button:hover {
             background-color: #0056b3;
             transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.3);
             animation: none;
         }
 
@@ -58,19 +95,19 @@
         }
 
         .tool-container {
-            max-width: 1400px;
+            max-width: 87.5rem;
             margin: 0 auto;
-            padding: 20px;
+            padding: 1.25rem;
             position: relative;
-            min-height: calc(100vh - 180px);
+            min-height: calc(100vh - 11.25rem);
         }
 
         .main-content {
             display: flex;
-            gap: 30px;
-            margin-bottom: 15px;
-            height: calc(100vh - 250px);
-            min-height: 500px;
+            gap: 1.875rem;
+            margin-bottom: 0.9375rem;
+            height: calc(100vh - 15.625rem);
+            min-height: 31.25rem;
         }
 
         .left-section {
@@ -84,16 +121,16 @@
             flex: 0.8;
             display: flex;
             flex-direction: column;
-            min-width: 300px;
-            max-width: 380px;
+            min-width: 18.75rem;
+            max-width: 23.75rem;
         }
 
         .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 20px 15px;
+            border: 0.125rem dashed #ccc;
+            border-radius: 0.5rem;
+            padding: 1.25rem 0.9375rem;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 0.9375rem;
             cursor: pointer;
             transition: all 0.3s ease;
             flex-shrink: 0;
@@ -103,20 +140,20 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 0.9375rem;
             width: 100%;
         }
 
         .upload-area .content-wrapper {
             display: flex;
             align-items: center;
-            gap: 15px;
-            max-width: 400px;
+            gap: 0.9375rem;
+            max-width: 25rem;
             margin: 0 auto;
         }
 
         .upload-area .icon-container {
-            font-size: 36px;
+            font-size: 2.25rem;
             animation: bounce 2s infinite;
             line-height: 1;
             flex-shrink: 0;
@@ -138,7 +175,7 @@
         }
 
         .upload-area p {
-            font-size: 16px;
+            font-size: 1rem;
             color: #666;
             margin: 0;
             position: relative;
@@ -146,9 +183,9 @@
         }
 
         .upload-area .upload-hint {
-            font-size: 14px;
+            font-size: 0.875rem;
             color: #999;
-            margin-top: 8px;
+            margin-top: 0.5rem;
             position: relative;
             z-index: 1;
         }
@@ -156,8 +193,8 @@
         .upload-area:hover {
             border-color: #007bff;
             background-color: #f0f7ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+            transform: translateY(-0.125rem);
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 123, 255, 0.1);
         }
 
         .upload-area:hover .icon-container {
@@ -169,7 +206,7 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-0.625rem);
             }
         }
 
@@ -196,75 +233,65 @@
 
         .preview-box {
             flex: 1;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 8px;
+            border: 0.0625rem solid #ddd;
+            border-radius: 0.25rem;
+            padding: 0.25rem;
             display: flex;
             flex-direction: column;
             min-width: 0;
-            height: calc(100vh - 350px);
-            min-height: 400px;
+            height: calc(100vh - 21.875rem);
+            min-height: 25rem;
         }
 
         .preview-box h3 {
             margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
             flex-shrink: 0;
         }
 
         .preview-table {
-            width: 100%;
-            height: 100%;
+            flex: 1;
             overflow: auto;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            position: relative;
+            border: 0.0625rem solid #ddd;
+            border-radius: 0.25rem;
+            margin-top: 0.5rem;
         }
 
         .preview-table table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.75rem;
         }
 
         .preview-table th,
         .preview-table td {
-            border: 1px solid #ddd;
-            padding: 4px 8px;
-            font-size: 12px;
+            padding: 0.25rem;
+            border: 0.0625rem solid #ddd;
             text-align: left;
-            white-space: nowrap;
+            line-height: 1.2;
         }
 
         .preview-table th {
-            background-color: #f0f0f0;
+            background-color: #f8f9fa;
+            font-weight: 600;
             position: sticky;
             top: 0;
             z-index: 1;
+            font-size: 0.75rem;
         }
 
-        .preview-table::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        .preview-table tr:nth-child(even) {
+            background-color: #f8f9fa;
         }
 
-        .preview-table::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .preview-table::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
-        }
-
-        .preview-table::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .preview-table tr:hover {
+            background-color: #f0f7ff;
         }
 
         .settings {
             background-color: #f8f9fa;
-            padding: 20px;
+            padding: 10px;
             border-radius: 8px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -273,7 +300,7 @@
 
         .settings-group {
             margin-bottom: 25px;
-            padding: 15px;
+            padding: 10px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             background-color: white;
@@ -865,12 +892,49 @@
             0% { transform: translateY(-50%) rotate(0deg); }
             100% { transform: translateY(-50%) rotate(360deg); }
         }
+
+        .mapping-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .mapping-row select {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            max-width: 120px;
+            text-overflow: ellipsis;
+        }
+        .mapping-row select option {
+            font-size: 12px;
+            padding: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .mapping-row .delete-mapping {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 0 5px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .mapping-arrow {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Excel数据处理</h1>
-        <p>数据格式统一和重复数据处理</p>
+        <p>数据格式统一和重复数据等处理</p>
     </header>
 
     <main class="tool-container">
@@ -895,7 +959,7 @@
                             <!-- 列选项将通过JavaScript动态添加 -->
                         </div>
                     </div>
-                    <h3>数据预览</h3>
+                    <h3>数据预览（目标Excel）</h3>
                     <div class="preview-table" id="dataPreview"></div>
                 </div>
             </div>
@@ -903,18 +967,43 @@
                 <div class="settings">
                     <div class="settings-group">
                         <div class="settings-group-title">
-                            <i>📝</i> 数据格式统一
+                            <i>📝</i> 数据处理
                         </div>
-                        <p class="feature-description">选择需要统一格式的列，可以将文本转换为大写、小写或首字母大写格式。</p>
                         <select id="formatType">
                             <option value="none">不处理</option>
-                            <option value="uppercase">全部大写</option>
-                            <option value="lowercase">全部小写</option>
-                            <option value="capitalize">首字母大写</option>
+                            <option value="case">大小写处理</option>
                             <option value="datetime">时间格式</option>
-                            <option value="toNumber">转换为数字</option>
-                            <option value="toString">转换为字符串</option>
+                            <option value="duplicate">重复行处理</option>
+                            <option value="merge">数据合并</option>
                         </select>
+                        <div id="caseFormatOptions" style="display: none; margin-bottom: 10px;">
+                            <select id="caseFormat" style="margin-top: 8px;">
+                                <option value="uppercase">全部大写</option>
+                                <option value="lowercase">全部小写</option>
+                                <option value="capitalize">首字母大写</option>
+                            </select>
+                        </div>
+                        <div id="mergeOptions" style="display: none; margin-bottom: 10px;">
+                            <div class="merge-file-upload" style="border: 1px dashed #ccc; padding: 10px; border-radius: 4px; margin-top: 8px; cursor: pointer; text-align: center;">
+                                <p style="margin: 0;">点击选择要合并的源Excel文件</p>
+                                <p style="margin: 5px 0 0; font-size: 12px; color: #666;">支持选择多个文件</p>
+                            </div>
+                            <input type="file" id="mergeFileInput" accept=".xlsx,.xls" multiple style="display: none;">
+                            <div id="selectedFiles" style="margin-top: 8px; font-size: 12px;"></div>
+                            <div id="columnMappingContainer" style="margin-top: 15px; display: none;">
+                                <div style="margin-bottom: 10px; font-weight: 500;">设置列对应关系：</div>
+                                <div id="columnMappings"></div>
+                                <button id="addMappingBtn" style="margin-top: 10px; padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                    添加列映射
+                                </button>
+                            </div>
+                        </div>
+                        <div id="duplicateOptions" style="display: none; margin-bottom: 10px;">
+                            <select id="duplicateFormat" style="margin-top: 8px;">
+                                <option value="remove">删除重复行</option>
+                                <option value="mark">标记重复行</option>
+                            </select>
+                        </div>
                         <div id="datetimeFormatOptions" style="display: none; margin-bottom: 10px;">
                             <select id="datetimeFormat" style="margin-top: 8px;">
                                 <option value="YYYY-MM-DD">YYYY-MM-DD（2024-03-21）</option>
@@ -935,32 +1024,12 @@
                             </select>
                         </div>
                         <div class="select-trigger" id="formatSelectTrigger">
-                            选择需要统一格式的列
+                            选择需要处理的列
                         </div>
                         <div class="checkbox-group" id="formatColumns">
                             <!-- 选项将通过JavaScript动态添加 -->
                         </div>
                         <div class="selected-columns" id="selectedFormatColumns">
-                            <!-- 已选择的列将在这里显示 -->
-                        </div>
-                    </div>
-                    <div class="settings-group">
-                        <div class="settings-group-title">
-                            <i>🔍</i> 重复数据处理
-                        </div>
-                        <p class="feature-description">选择用于判断重复数据的列，可以删除重复行或在重复数据前添加标记。</p>
-                        <select id="duplicateType">
-                            <option value="none">不处理</option>
-                            <option value="remove">删除重复行</option>
-                            <option value="mark">标记重复行</option>
-                        </select>
-                        <div class="select-trigger" id="duplicateSelectTrigger">
-                            选择用于判断重复数据的列
-                        </div>
-                        <div class="checkbox-group" id="duplicateColumns">
-                            <!-- 选项将通过JavaScript动态添加 -->
-                        </div>
-                        <div class="selected-columns" id="selectedDuplicateColumns">
                             <!-- 已选择的列将在这里显示 -->
                         </div>
                     </div>
@@ -990,18 +1059,27 @@
             const downloadBtn = document.getElementById('downloadBtn');
             const stats = document.getElementById('stats');
             const formatType = document.getElementById('formatType');
-            const duplicateType = document.getElementById('duplicateType');
             const formatColumns = document.getElementById('formatColumns');
-            const duplicateColumns = document.getElementById('duplicateColumns');
             const formatSelectTrigger = document.getElementById('formatSelectTrigger');
-            const duplicateSelectTrigger = document.getElementById('duplicateSelectTrigger');
             const datetimeFormatOptions = document.getElementById('datetimeFormatOptions');
             const numberFormatOptions = document.getElementById('numberFormatOptions');
+            const caseFormatOptions = document.getElementById('caseFormatOptions');
+            const duplicateOptions = document.getElementById('duplicateOptions');
+            const mergeOptions = document.getElementById('mergeOptions');
+            const mergeFileUpload = document.querySelector('.merge-file-upload');
+            const mergeFileInput = document.getElementById('mergeFileInput');
+            const selectedFiles = document.getElementById('selectedFiles');
 
             let workbook = null;
             let currentSheet = null;
             let hiddenColumns = new Set(); // 存储隐藏的列索引
             let originalFileName = ''; // 添加变量存储原始文件名
+            let filesToMerge = []; // 存储要合并的文件
+
+            // 添加列映射相关变量
+            let sourceHeaders = [];
+            let targetHeaders = [];
+            let columnMappings = [];
 
             // 处理文件拖放
             dropZone.addEventListener('dragover', (e) => {
@@ -1148,6 +1226,8 @@
                 }
 
                 let html = '<table><thead><tr>';
+                // 添加序号列表头
+                html += '<th style="width: 50px; text-align: center;">序号</th>';
                 // 表头
                 jsonData[0].forEach((header, index) => {
                     if (!hiddenColumns.has(index)) {
@@ -1159,6 +1239,8 @@
                 // 数据行
                 for (let i = 1; i < jsonData.length; i++) {
                     html += '<tr>';
+                    // 添加序号列
+                    html += `<td style="text-align: center;">${i}</td>`;
                     jsonData[i].forEach((cell, index) => {
                         if (!hiddenColumns.has(index)) {
                             html += `<td>${cell || ''}</td>`;
@@ -1245,33 +1327,6 @@
                     div.appendChild(label);
                     formatColumnsContainer.appendChild(div);
                 });
-
-                // 更新重复数据处理列选项
-                const duplicateColumnsContainer = document.getElementById('duplicateColumns');
-                duplicateColumnsContainer.innerHTML = '';
-                jsonData[0].forEach((header, index) => {
-                    if (hiddenColumns.has(index)) return; // 跳过隐藏的列
-                    
-                    const div = document.createElement('div');
-                    div.className = 'checkbox-item';
-                    
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.id = `duplicate-col-${index}`;
-                    checkbox.value = header;
-                    checkbox.addEventListener('change', () => {
-                        updateSelectedColumns('duplicate');
-                        updateSelectTriggerText('duplicate');
-                    });
-                    
-                    const label = document.createElement('label');
-                    label.htmlFor = `duplicate-col-${index}`;
-                    label.textContent = `${header} (列${index + 1})`;
-                    
-                    div.appendChild(checkbox);
-                    div.appendChild(label);
-                    duplicateColumnsContainer.appendChild(div);
-                });
             }
 
             // 更新已选择的列显示
@@ -1317,25 +1372,13 @@
                 e.stopPropagation();
                 formatColumns.classList.toggle('show');
                 formatSelectTrigger.classList.toggle('active');
-                duplicateColumns.classList.remove('show');
-                duplicateSelectTrigger.classList.remove('active');
-            });
-
-            duplicateSelectTrigger.addEventListener('click', (e) => {
-                e.stopPropagation();
-                duplicateColumns.classList.toggle('show');
-                duplicateSelectTrigger.classList.toggle('active');
-                formatColumns.classList.remove('show');
-                formatSelectTrigger.classList.remove('active');
             });
 
             // 点击其他地方关闭下拉框
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.checkbox-group') && !e.target.closest('.select-trigger')) {
                     formatColumns.classList.remove('show');
-                    duplicateColumns.classList.remove('show');
                     formatSelectTrigger.classList.remove('active');
-                    duplicateSelectTrigger.classList.remove('active');
                 }
             });
 
@@ -1343,27 +1386,56 @@
             processBtn.addEventListener('click', async () => {
                 if (!currentSheet) return;
 
-                // 添加处理中状态
                 processBtn.classList.add('processing');
                 processBtn.disabled = true;
 
                 try {
-                    // 使用 Promise 和 setTimeout 创建延迟
                     await new Promise(resolve => setTimeout(resolve, 1500));
 
                     const jsonData = XLSX.utils.sheet_to_json(currentSheet, { header: 1 });
-                    // 过滤掉隐藏的列
                     let processedData = jsonData.map(row => 
                         row.filter((_, index) => !hiddenColumns.has(index))
                     );
                     let statsText = [];
 
-                    // 数据格式统一
-                    if (formatType.value !== 'none') {
+                    if (formatType.value === 'merge') {
+                        if (filesToMerge.length === 0) {
+                            showToast('请选择要合并的Excel文件');
+                            processBtn.classList.remove('processing');
+                            processBtn.disabled = false;
+                            return;
+                        }
+
+                        if (columnMappings.length === 0) {
+                            showToast('请设置列对应关系');
+                            processBtn.classList.remove('processing');
+                            processBtn.disabled = false;
+                            return;
+                        }
+
+                        try {
+                            // 执行合并操作
+                            processedData = await mergeExcelFiles(currentSheet, filesToMerge);
+                            statsText.push(`已合并 ${filesToMerge.length} 个文件的数据，共 ${processedData.length - 1} 行`);
+                            
+                            // 更新当前sheet
+                            currentSheet = XLSX.utils.aoa_to_sheet(processedData);
+                            
+                            // 更新预览显示
+                            displayPreview(currentSheet, document.getElementById('dataPreview'));
+                            
+                            // 清空已选择的文件
+                            filesToMerge = [];
+                            selectedFiles.innerHTML = '';
+                            mergeFileInput.value = '';
+                            document.getElementById('columnMappingContainer').style.display = 'none';
+                        } catch (error) {
+                            throw new Error('数据合并失败：' + error.message);
+                        }
+                    } else {
                         const formatCheckboxes = document.querySelectorAll('#formatColumns input[type="checkbox"]:checked');
                         if (formatCheckboxes.length === 0) {
-                            showToast('请选择需要统一格式的列');
-                            // 移除处理中状态
+                            showToast('请选择需要处理的列');
                             processBtn.classList.remove('processing');
                             processBtn.disabled = false;
                             return;
@@ -1379,133 +1451,95 @@
                             return index;
                         });
 
-                        // 创建一个新的工作表配置对象来存储单元格格式
-                        let cellFormats = {};
-
-                        processedData = processedData.map((row, rowIndex) => {
-                            if (rowIndex === 0) return row; // 跳过表头
-                            return row.map((cell, cellIndex) => {
-                                if (formatIndices.includes(cellIndex)) {
-                                    let processedValue;
-                                    switch (formatType.value) {
-                                        case 'datetime':
-                                            const datetimeFormat = document.getElementById('datetimeFormat').value;
-                                            processedValue = formatDateTime(cell, datetimeFormat);
-                                            break;
-                                        case 'toNumber':
-                                            const numberFormat = document.getElementById('numberFormat').value;
-                                            processedValue = formatNumber(cell, numberFormat);
-                                            // 为数字类型的单元格设置格式
-                                            if (typeof processedValue === 'number') {
-                                                const cellRef = XLSX.utils.encode_cell({r: rowIndex, c: cellIndex});
-                                                cellFormats[cellRef] = { t: 'n' };
+                        if (formatType.value === 'duplicate') {
+                            const duplicateFormat = document.getElementById('duplicateFormat').value;
+                            if (duplicateFormat === 'remove') {
+                                const seen = new Map();
+                                processedData = processedData.filter((row, index) => {
+                                    if (index === 0) return true; // 保留表头
+                                    const key = formatIndices.map(i => row[i]).join('|');
+                                    if (seen.has(key)) return false;
+                                    seen.set(key, true);
+                                    return true;
+                                });
+                                statsText.push(`已删除 ${jsonData.length - processedData.length} 行重复数据`);
+                            } else {
+                                const seen = new Map();
+                                processedData = processedData.map((row, rowIndex) => {
+                                    if (rowIndex === 0) return row; // 跳过表头
+                                    return row.map((cell, cellIndex) => {
+                                        if (formatIndices.includes(cellIndex)) {
+                                            if (seen.has(cell)) {
+                                                return `[重复] ${cell}`;
                                             }
-                                            break;
-                                        case 'toString':
-                                            processedValue = cell ? cell.toString() : '';
-                                            break;
-                                        case 'uppercase':
-                                            processedValue = typeof cell === 'string' ? cell.toUpperCase() : cell;
-                                            break;
-                                        case 'lowercase':
-                                            processedValue = typeof cell === 'string' ? cell.toLowerCase() : cell;
-                                            break;
-                                        case 'capitalize':
-                                            processedValue = typeof cell === 'string' 
-                                                ? cell.split(' ').map(word => 
-                                                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                                                ).join(' ') 
-                                                : cell;
-                                            break;
-                                        default:
-                                            processedValue = cell;
-                                    }
-                                    return processedValue;
-                                }
-                                return cell;
-                            });
-                        });
-
-                        // 创建新的工作表时应用单元格格式
-                        const newSheet = XLSX.utils.aoa_to_sheet(processedData);
-                        // 应用单元格格式
-                        Object.keys(cellFormats).forEach(cellRef => {
-                            if (!newSheet[cellRef]) newSheet[cellRef] = {};
-                            Object.assign(newSheet[cellRef], cellFormats[cellRef]);
-                        });
-                        currentSheet = newSheet;
-
-                        // 更新统计信息
-                        let formatTypeText = '';
-                        switch (formatType.value) {
-                            case 'uppercase':
-                                formatTypeText = '转大写';
-                                break;
-                            case 'lowercase':
-                                formatTypeText = '转小写';
-                                break;
-                            case 'capitalize':
-                                formatTypeText = '首字母大写';
-                                break;
-                            case 'datetime':
-                                formatTypeText = '时间格式化';
-                                break;
-                            case 'toNumber':
-                                formatTypeText = '转数字';
-                                break;
-                            case 'toString':
-                                formatTypeText = '转字符串';
-                                break;
-                        }
-                        statsText.push(`已完成${formatCols.length}列${formatTypeText}处理`);
-                    }
-
-                    // 重复数据处理
-                    if (duplicateType.value !== 'none') {
-                        const duplicateCheckboxes = document.querySelectorAll('#duplicateColumns input[type="checkbox"]:checked');
-                        if (duplicateCheckboxes.length === 0) {
-                            showToast('请选择用于判断重复数据的列');
-                            // 移除处理中状态
-                            processBtn.classList.remove('processing');
-                            processBtn.disabled = false;
-                            return;
-                        }
-
-                        const duplicateCols = Array.from(duplicateCheckboxes).map(checkbox => checkbox.value);
-                        const headerRow = processedData[0];
-                        const duplicateIndices = duplicateCols.map(col => {
-                            const index = headerRow.findIndex(h => h === col);
-                            if (index === -1) {
-                                throw new Error(`未找到列：${col}`);
+                                            seen.set(cell, true);
+                                            return cell;
+                                        }
+                                        return cell;
+                                    });
+                                });
+                                statsText.push(`已标记${formatCols.length}列的重复数据`);
                             }
-                            return index;
-                        });
+                        } else if (formatType.value === 'case') {
+                            const caseFormat = document.getElementById('caseFormat').value;
+                            processedData = processedData.map((row, rowIndex) => {
+                                if (rowIndex === 0) return row; // 跳过表头
+                                return row.map((cell, cellIndex) => {
+                                    if (formatIndices.includes(cellIndex)) {
+                                        let processedValue;
+                                        switch (caseFormat) {
+                                            case 'uppercase':
+                                                processedValue = typeof cell === 'string' ? cell.toUpperCase() : cell;
+                                                break;
+                                            case 'lowercase':
+                                                processedValue = typeof cell === 'string' ? cell.toLowerCase() : cell;
+                                                break;
+                                            case 'capitalize':
+                                                processedValue = typeof cell === 'string' 
+                                                    ? cell.split(' ').map(word => 
+                                                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                                                    ).join(' ') 
+                                                    : cell;
+                                                break;
+                                            default:
+                                                processedValue = cell;
+                                        }
+                                        return processedValue;
+                                    }
+                                    return cell;
+                                });
+                            });
 
-                        if (duplicateType.value === 'remove') {
-                            const seen = new Set();
-                            processedData = processedData.filter((row, index) => {
-                                if (index === 0) return true; // 保留表头
-                                const key = duplicateIndices.map(i => row[i]).join('|');
-                                if (seen.has(key)) return false;
-                                seen.add(key);
-                                return true;
+                            // 更新统计信息
+                            let formatTypeText = '';
+                            switch (caseFormat) {
+                                case 'uppercase':
+                                    formatTypeText = '转大写';
+                                    break;
+                                case 'lowercase':
+                                    formatTypeText = '转小写';
+                                    break;
+                                case 'capitalize':
+                                    formatTypeText = '首字母大写';
+                                    break;
+                            }
+                            statsText.push(`已完成${formatCols.length}列${formatTypeText}处理`);
+                        } else if (formatType.value === 'datetime') {
+                            processedData = processedData.map((row, rowIndex) => {
+                                if (rowIndex === 0) return row; // 跳过表头
+                                return row.map((cell, cellIndex) => {
+                                    if (formatIndices.includes(cellIndex)) {
+                                        const datetimeFormat = document.getElementById('datetimeFormat').value;
+                                        return formatDateTime(cell, datetimeFormat);
+                                    }
+                                    return cell;
+                                });
                             });
-                            statsText.push(`已删除 ${jsonData.length - processedData.length} 行重复数据`);
-                        } else if (duplicateType.value === 'mark') {
-                            const seen = new Map();
-                            processedData = processedData.map((row, index) => {
-                                if (index === 0) return row; // 跳过表头
-                                const key = duplicateIndices.map(i => row[i]).join('|');
-                                if (seen.has(key)) {
-                                    return row.map((cell, cellIndex) => 
-                                        duplicateIndices.includes(cellIndex) ? `[重复] ${cell}` : cell
-                                    );
-                                }
-                                seen.set(key, true);
-                                return row;
-                            });
-                            statsText.push(`已标记${duplicateCols.length}列的重复数据`);
+                            statsText.push(`已完成${formatCols.length}列时间格式化处理`);
                         }
+
+                        // 将处理后的数据写回到currentSheet
+                        currentSheet = XLSX.utils.aoa_to_sheet(processedData);
                     }
 
                     // 更新数据预览
@@ -1569,24 +1603,28 @@
             // 清空已选择的列
             function clearSelectedColumns() {
                 // 取消所有复选框的选中状态
-                document.querySelectorAll('#formatColumns input[type="checkbox"], #duplicateColumns input[type="checkbox"]')
+                document.querySelectorAll('#formatColumns input[type="checkbox"]')
                     .forEach(checkbox => {
                         checkbox.checked = false;
                     });
 
                 // 更新显示
                 updateSelectedColumns('format');
-                updateSelectedColumns('duplicate');
                 updateSelectTriggerText('format');
-                updateSelectTriggerText('duplicate');
             }
 
             // 重置处理选项
             function resetProcessOptions() {
                 formatType.value = 'none';
-                duplicateType.value = 'none';
                 datetimeFormatOptions.style.display = 'none';
+                caseFormatOptions.style.display = 'none';
+                duplicateOptions.style.display = 'none';
+                mergeOptions.style.display = 'none';
                 numberFormatOptions.style.display = 'none';
+                // 清空合并文件选择
+                filesToMerge = [];
+                selectedFiles.innerHTML = '';
+                mergeFileInput.value = '';
             }
 
             // 错误处理
@@ -1611,19 +1649,45 @@
                 }, 3000);
             }
 
-            // 在 DOMContentLoaded 事件监听器中修改
+            // 修改formatType的change事件监听器
             formatType.addEventListener('change', () => {
-                if (formatType.value === 'datetime') {
+                if (formatType.value === 'none') {
+                    datetimeFormatOptions.style.display = 'none';
+                    caseFormatOptions.style.display = 'none';
+                    duplicateOptions.style.display = 'none';
+                    mergeOptions.style.display = 'none';
+                    formatSelectTrigger.style.display = 'none';
+                    document.getElementById('selectedFormatColumns').style.display = 'none';
+                } else if (formatType.value === 'datetime') {
                     datetimeFormatOptions.style.display = 'block';
-                    numberFormatOptions.style.display = 'none';
-                } else if (formatType.value === 'toNumber') {
+                    caseFormatOptions.style.display = 'none';
+                    duplicateOptions.style.display = 'none';
+                    mergeOptions.style.display = 'none';
+                    formatSelectTrigger.style.display = 'block';
+                } else if (formatType.value === 'case') {
                     datetimeFormatOptions.style.display = 'none';
-                    numberFormatOptions.style.display = 'block';
-                } else {
+                    caseFormatOptions.style.display = 'block';
+                    duplicateOptions.style.display = 'none';
+                    mergeOptions.style.display = 'none';
+                    formatSelectTrigger.style.display = 'block';
+                } else if (formatType.value === 'duplicate') {
                     datetimeFormatOptions.style.display = 'none';
-                    numberFormatOptions.style.display = 'none';
+                    caseFormatOptions.style.display = 'none';
+                    duplicateOptions.style.display = 'block';
+                    mergeOptions.style.display = 'none';
+                    formatSelectTrigger.style.display = 'block';
+                } else if (formatType.value === 'merge') {
+                    datetimeFormatOptions.style.display = 'none';
+                    caseFormatOptions.style.display = 'none';
+                    duplicateOptions.style.display = 'none';
+                    mergeOptions.style.display = 'block';
+                    formatSelectTrigger.style.display = 'none';
+                    document.getElementById('selectedFormatColumns').style.display = 'none';
                 }
             });
+
+            // 页面加载时触发一次change事件，设置默认状态
+            formatType.dispatchEvent(new Event('change'));
 
             // 添加数字格式化函数
             function formatNumber(value, format) {
@@ -1699,6 +1763,198 @@
                     default:
                         return dateStr;
                 }
+            }
+
+            // 添加合并文件选择功能
+            mergeFileUpload.addEventListener('click', () => {
+                mergeFileInput.click();
+            });
+
+            // 修改数据选择处理
+            mergeFileInput.addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files);
+                filesToMerge = files;
+                
+                // 显示选择的文件
+                selectedFiles.innerHTML = files.map((file, index) => `
+                    <div style="margin: 4px 0; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="flex: 1; overflow: hidden; text-overflow: ellipsis;">${file.name}</span>
+                        <span class="delete-file" data-index="${index}" style="cursor: pointer; color: #dc3545; margin-left: 8px; padding: 2px 6px;">×</span>
+                    </div>
+                `).join('');
+
+                // 添加删除事件监听
+                const deleteButtons = selectedFiles.querySelectorAll('.delete-file');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        filesToMerge = filesToMerge.filter((_, i) => i !== index);
+                        updateSelectedFiles();
+                        if (filesToMerge.length === 0) {
+                            document.getElementById('columnMappingContainer').style.display = 'none';
+                        }
+                    });
+                });
+
+                // 如果有选择文件，读取目标文件的表头
+                if (files.length > 0) {
+                    try {
+                        const reader = new FileReader();
+                        reader.onload = async (e) => {
+                            const data = new Uint8Array(e.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+                            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                            
+                            if (jsonData.length > 0) {
+                                targetHeaders = jsonData[0];
+                                // 获取源文件（当前预览的文件）的表头
+                                sourceHeaders = XLSX.utils.sheet_to_json(currentSheet, { header: 1 })[0];
+                                
+                                // 显示列映射界面
+                                document.getElementById('columnMappingContainer').style.display = 'block';
+                                // 初始化一个默认的映射
+                                columnMappings = [];
+                                updateColumnMappingUI();
+                            }
+                        };
+                        reader.readAsArrayBuffer(files[0]);
+                    } catch (error) {
+                        showToast('读取文件表头失败：' + error.message);
+                    }
+                }
+            });
+
+            // 添加列映射相关函数
+            function createMappingRow() {
+                const mappingDiv = document.createElement('div');
+                mappingDiv.className = 'mapping-row';
+                
+                // 源列选择
+                const sourceSelect = document.createElement('select');
+                sourceSelect.innerHTML = `
+                    <option value="">源列</option>
+                    ${sourceHeaders.map((header, index) => `
+                        <option value="${index}">${header}</option>
+                    `).join('')}
+                `;
+
+                // 箭头
+                const arrow = document.createElement('div');
+                arrow.className = 'mapping-arrow';
+                arrow.textContent = '→';
+
+                // 目标列选择
+                const targetSelect = document.createElement('select');
+                targetSelect.innerHTML = `
+                    <option value="">目标列</option>
+                    ${targetHeaders.map((header, index) => `
+                        <option value="${index}">${header}</option>
+                    `).join('')}
+                `;
+
+                // 删除按钮
+                const deleteBtn = document.createElement('span');
+                deleteBtn.className = 'delete-mapping';
+                deleteBtn.textContent = '×';
+                deleteBtn.onclick = async () => {
+                    mappingDiv.remove();
+                    await updateColumnMappings();
+                };
+
+                // 添加change事件监听
+                sourceSelect.onchange = updateColumnMappings;
+                targetSelect.onchange = updateColumnMappings;
+
+                mappingDiv.appendChild(sourceSelect);
+                mappingDiv.appendChild(arrow);
+                mappingDiv.appendChild(targetSelect);
+                mappingDiv.appendChild(deleteBtn);
+
+                return mappingDiv;
+            }
+
+            function updateColumnMappingUI() {
+                const container = document.getElementById('columnMappings');
+                container.innerHTML = '';
+                
+                // 如果没有映射，添加一个默认的
+                if (columnMappings.length === 0) {
+                    container.appendChild(createMappingRow());
+                } else {
+                    columnMappings.forEach(() => {
+                        container.appendChild(createMappingRow());
+                    });
+                }
+            }
+
+            // 添加"添加列映射"按钮的点击事件监听器
+            document.getElementById('addMappingBtn').addEventListener('click', () => {
+                const container = document.getElementById('columnMappings');
+                container.appendChild(createMappingRow());
+            });
+
+            function updateColumnMappings() {
+                const mappingRows = document.querySelectorAll('.mapping-row');
+                columnMappings = Array.from(mappingRows).map(row => {
+                    const sourceIndex = row.querySelector('select:first-child').value;
+                    const targetIndex = row.querySelector('select:last-of-type').value;
+                    return {
+                        sourceIndex: parseInt(sourceIndex),
+                        targetIndex: parseInt(targetIndex)
+                    };
+                }).filter(mapping => !isNaN(mapping.sourceIndex) && !isNaN(mapping.targetIndex));
+            }
+
+            // 修改合并处理函数
+            async function mergeExcelFiles(baseSheet, files) {
+                const baseData = XLSX.utils.sheet_to_json(baseSheet, { header: 1 });
+                let mergedData = [...baseData];
+
+                // 验证是否设置了列映射
+                if (columnMappings.length === 0) {
+                    return mergedData;
+                }
+
+                for (const file of files) {
+                    const reader = new FileReader();
+                    await new Promise((resolve, reject) => {
+                        reader.onload = (e) => {
+                            try {
+                                const data = new Uint8Array(e.target.result);
+                                const workbook = XLSX.read(data, { type: 'array' });
+                                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                                const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                                
+                                // 跳过表头，处理数据行
+                                const dataRows = jsonData.slice(1);
+                                
+                                // 根据映射关系合并数据
+                                dataRows.forEach(row => {
+                                    const newRow = [...mergedData[0].map(() => '')]; // 创建一个与基础数据相同列数的空行
+                                    // 根据映射关系填充数据
+                                    columnMappings.forEach(mapping => {
+                                        if (row[mapping.targetIndex] !== undefined && row[mapping.targetIndex] !== null) {
+                                            newRow[mapping.sourceIndex] = row[mapping.targetIndex];
+                                        }
+                                    });
+                                    // 只有当行中至少有一个非空值时才添加该行
+                                    if (newRow.some(cell => cell !== '')) {
+                                        mergedData.push(newRow);
+                                    }
+                                });
+                                
+                                resolve();
+                            } catch (error) {
+                                reject(error);
+                            }
+                        };
+                        reader.onerror = () => reject(new Error('文件读取失败'));
+                        reader.readAsArrayBuffer(file);
+                    });
+                }
+
+                return mergedData;
             }
         });
     </script>

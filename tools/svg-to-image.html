@@ -3,15 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVG转图片 - 实用工具箱</title>
+    <title>SVG转PNG/JPEG - 在线SVG转图片工具 | 实用工具箱</title>
+    <meta name="description" content="免费在线SVG转换工具，轻松将SVG矢量图转换为PNG或JPEG格式。支持批量转换，可自定义输出尺寸和质量，无需安装软件，快速导出高质量图片。">
+    <meta name="keywords" content="SVG转PNG,SVG转JPEG,SVG转换器,SVG转图片,在线工具,矢量图转换,免费工具">
+    <!-- 百度搜索优化 -->
+    <meta name="baidu-site-verification" content="code-xxxxx"> <!-- 请替换为实际的百度站长验证码 -->
+    <meta property="og:title" content="SVG转PNG/JPEG - 在线SVG转图片工具">
+    <meta property="og:description" content="免费在线SVG转换工具，轻松将SVG矢量图转换为PNG或JPEG格式。支持批量转换，可自定义输出尺寸和质量。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tools.ldoing.com/tools/svg-to-image.html">
+    <!-- 谷歌搜索优化 -->
+    <meta name="google-site-verification" content="xxxxx"> <!-- 请替换为实际的谷歌站长验证码 -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tools.ldoing.com/tools/svg-to-image.html">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SVG转PNG/JPEG工具",
+        "description": "免费在线SVG转换工具，轻松将SVG矢量图转换为PNG或JPEG格式。",
+        "url": "https://tools.ldoing.com/tools/svg-to-image.html",
+        "applicationCategory": "图片处理工具",
+        "operatingSystem": "全平台",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        },
+        "featureList": [
+            "SVG转PNG",
+            "SVG转JPEG",
+            "自定义输出尺寸",
+            "自定义图片质量",
+            "支持透明背景",
+            "实时预览"
+        ]
+    }
+    </script>
     <link rel="stylesheet" href="../css/style.css">
     <style>
         .back-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 3.75rem;
+            height: 3.75rem;
             background-color: #007bff;
             border: none;
             border-radius: 50%;
@@ -19,28 +56,28 @@
             text-decoration: none;
             transition: all 0.3s ease;
             position: fixed;
-            right: 200px;
-            bottom: 100px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            right: 5%;
+            bottom: 10%;
+            box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
             z-index: 1000;
-            font-size: 16px;
+            font-size: 1rem;
             animation: breathe 1.5s ease-in-out infinite;
         }
 
         @keyframes breathe {
             0% {
                 transform: scale(1);
-                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                box-shadow: 0 0.125rem 0.625rem rgba(0, 123, 255, 0.2);
                 background-color: #007bff;
             }
             50% {
                 transform: scale(1.15);
-                box-shadow: 0 4px 25px rgba(0, 123, 255, 0.6);
+                box-shadow: 0 0.25rem 1.5625rem rgba(0, 123, 255, 0.6);
                 background-color: #0056b3;
             }
             100% {
                 transform: scale(1);
-                box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+                box-shadow: 0 0.125rem 0.625rem rgba(0, 123, 255, 0.2);
                 background-color: #007bff;
             }
         }
@@ -48,7 +85,7 @@
         .back-button:hover {
             background-color: #0056b3;
             transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.3);
             animation: none;
         }
 
@@ -57,19 +94,19 @@
         }
 
         .tool-container {
-            max-width: 1400px;
+            max-width: 87.5rem;
             margin: 0 auto;
-            padding: 20px;
+            padding: 1.25rem;
             position: relative;
-            min-height: calc(100vh - 180px);
+            min-height: calc(100vh - 11.25rem);
         }
 
         .main-content {
             display: flex;
-            gap: 30px;
-            margin-bottom: 15px;
-            height: calc(100vh - 250px);
-            min-height: 500px;
+            gap: 1.875rem;
+            margin-bottom: 0.9375rem;
+            height: calc(100vh - 15.625rem);
+            min-height: 31.25rem;
         }
 
         .left-section {
@@ -83,21 +120,21 @@
             flex: 0.8;
             display: flex;
             flex-direction: column;
-            min-width: 300px;
-            max-width: 380px;
+            min-width: 18.75rem;
+            max-width: 23.75rem;
         }
 
         .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 20px 15px;
+            border: 0.125rem dashed #ccc;
+            border-radius: 0.5rem;
+            padding: 1.25rem 0.9375rem;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 0.9375rem;
             cursor: pointer;
             transition: all 0.3s ease;
             flex-shrink: 0;
             background-color: #f8f9fa;
-            height: 120px;
+            height: 7.5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -111,9 +148,9 @@
 
         .preview-container {
             display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            height: 400px;
+            gap: 0.9375rem;
+            margin-bottom: 0.9375rem;
+            height: 25rem;
         }
 
         .preview-box {
@@ -126,20 +163,20 @@
         .preview-box h3 {
             margin: 0;
             color: #333;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .preview-svg, .preview-output {
             flex: 1;
-            height: 360px;
+            height: 22.5rem;
             min-height: unset;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #f8f9fa;
             overflow: hidden;
-            border: 1px solid #ddd;
+            border: 0.0625rem solid #ddd;
             position: relative;
         }
 
@@ -155,57 +192,57 @@
 
         .settings-box {
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            border: 0.0625rem solid #ddd;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
             height: 100%;
             overflow-y: auto;
         }
 
         .settings-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.25rem;
         }
 
         .settings-group h3 {
-            margin: 0 0 15px 0;
+            margin: 0 0 0.9375rem 0;
             color: #333;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .settings-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             color: #555;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
         .settings-group select,
         .settings-group input {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-size: 14px;
+            padding: 0.5rem;
+            border: 0.0625rem solid #ddd;
+            border-radius: 0.25rem;
+            margin-bottom: 0.9375rem;
+            font-size: 0.875rem;
         }
 
         .settings-group select:focus,
         .settings-group input:focus {
             border-color: #007bff;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+            box-shadow: 0 0 0 0.125rem rgba(0, 123, 255, 0.25);
         }
 
         .process-button {
             width: 100%;
-            padding: 12px;
+            padding: 0.75rem;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 0.25rem;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
         }

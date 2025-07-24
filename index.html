@@ -3,12 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
     <title>青岛领动网络科技有限公司 - 专业的软件解决方案提供商</title>
+    <meta name="description" content="青岛领动网络科技专注于IoT平台、区块链应用、企业官网、ERP系统、小程序和电商平台开发，提供专业的软件开发解决方案，助力企业数字化转型。">
+    <meta name="keywords" content="青岛领动,物联网开发,区块链开发,软件开发,小程序开发,ERP系统,电商平台">
+    <meta name="author" content="青岛领动网络科技有限公司">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ldoing.com">
+    <meta property="og:title" content="青岛领动网络科技 - 专业的软件解决方案提供商">
+    <meta property="og:description" content="专注于IoT平台、区块链应用、企业官网、ERP系统、小程序和电商平台开发，提供专业的软件开发解决方案。">
+    <meta property="og:image" content="https://ldoing.com/images/og-image.jpg">
+
+    <!-- Canonical URL -->
+    <meta rel="canonical" href="https://ldoing.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Existing CSS -->
     <link rel="stylesheet" href="styles.css">
-    <!-- 引入字体图标库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "青岛领动网络科技有限公司",
+        "url": "https://ldoing.com",
+        "logo": "https://ldoing.com/images/logo.png",
+        "description": "专注于IoT平台、区块链应用、企业官网、ERP系统、小程序和电商平台开发，提供专业的软件开发解决方案。",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "中关村软件园3号楼",
+            "addressLocality": "城阳区",
+            "addressRegion": "青岛市",
+            "postalCode": "",
+            "addressCountry": "CN"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "17669718956",
+            "contactType": "customer service",
+            "email": "ldoingtech@163.com",
+            "areaServed": "CN",
+            "availableLanguage": ["Chinese"]
+        },
+        "sameAs": [
+            "https://ldoing.com"
+        ]
+    }
+    </script>
 </head>
 <body>
+    <!-- 添加面包屑导航 -->
+    <nav class="breadcrumb" aria-label="breadcrumb">
+        <div class="container">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="https://ldoing.com">
+                        <span itemprop="name">首页</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+                </li>
+            </ol>
+        </div>
+    </nav>
+
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="container">
@@ -281,6 +345,7 @@
                     <a href="#services">服务</a>
                     <a href="#about">关于</a>
                     <a href="#contact">联系</a>
+                    <a href="/sitemap.xml">站点地图</a>
                 </div>
             </div>
             <div class="footer-bottom">

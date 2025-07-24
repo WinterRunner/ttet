@@ -631,6 +631,37 @@ body {
     font-size: 14px;
 }
 
+/* 面包屑导航样式 */
+.breadcrumb {
+    background: var(--white);
+    padding: 8px 0;
+    margin-top: 72px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.breadcrumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb li {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+}
+
 /* 动画关键帧 */
 @keyframes fadeInUp {
     from {

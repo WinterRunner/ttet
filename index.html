@@ -63,6 +63,11 @@
     <nav class="navbar">
         <div class="container">
             <a href="#home" class="logo">青岛领动</a>
+            <button class="mobile-nav-toggle" aria-label="切换导航菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="#home" class="active">首页</a></li>
                 <li><a href="#services">服务</a></li>
@@ -72,6 +77,9 @@
             </ul>
         </div>
     </nav>
+
+    <!-- 移动端导航遮罩 -->
+    <div class="mobile-nav-overlay"></div>
 
     <!-- 首页banner -->
     <section id="home" class="hero">
@@ -381,6 +389,32 @@
         // 获取所有导航链接
         const navLinks = document.querySelectorAll('.nav-links a');
         const sections = document.querySelectorAll('section');
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        const navList = document.querySelector('.nav-links');
+        const overlay = document.querySelector('.mobile-nav-overlay');
+        
+        // 移动端导航菜单处理
+        mobileNavToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navList.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // 点击遮罩关闭菜单
+        overlay.addEventListener('click', () => {
+            navList.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // 点击导航链接关闭菜单
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
         
         // 监听滚动事件
         window.addEventListener('scroll', () => {

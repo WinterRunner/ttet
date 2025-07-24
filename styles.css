@@ -489,16 +489,17 @@ body {
     background: var(--white);
 }
 
-.contact-grid {
+.contact-wrapper {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 64px;
+    gap: 24px;
+    margin-top: 48px;
 }
 
 .contact-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 32px;
+    grid-template-columns: 1fr;
+    gap: 24px;
 }
 
 .contact-item {
@@ -506,17 +507,6 @@ body {
     background: var(--light-bg);
     border-radius: 8px;
     transition: var(--transition-normal);
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.contact-item.visible {
-    animation: fadeInUp 0.8s ease forwards;
-}
-
-.contact-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .contact-item i {
@@ -543,39 +533,49 @@ body {
     margin-bottom: 0;
 }
 
-.qr-code {
-    padding: 32px;
+.contact-card {
     background: var(--light-bg);
     border-radius: 8px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.contact-text {
     text-align: center;
-    transition: var(--transition-normal);
-    opacity: 0;
-    transform: translateY(20px);
+    margin-bottom: 24px;
 }
 
-.qr-code.visible {
-    animation: fadeInUp 0.8s ease forwards;
+.contact-text h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 12px;
 }
 
-.qr-code:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+.contact-text p {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.qr-code {
+    text-align: center;
 }
 
 .qr-code img {
-    max-width: 180px;
-    margin-bottom: 16px;
-    border-radius: 4px;
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .qr-code p {
     color: var(--text-secondary);
     font-size: 14px;
-    margin-bottom: 8px;
-}
-
-.qr-code p:last-child {
-    margin-bottom: 0;
 }
 
 /* 页脚样式 */
@@ -675,6 +675,21 @@ body {
 }
 
 /* 响应式设计 */
+@media (max-width: 992px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-card {
+        padding: 48px 32px;
+    }
+
+    .qr-code img {
+        width: 200px;
+        height: 200px;
+    }
+}
+
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 32px;
@@ -684,8 +699,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .contact-grid,
-    .about-content {
+    .contact-info {
         grid-template-columns: 1fr;
     }
     
